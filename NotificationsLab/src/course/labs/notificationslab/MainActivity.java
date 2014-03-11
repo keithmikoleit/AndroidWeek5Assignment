@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements SelectionListener {
 
@@ -84,13 +85,16 @@ public class MainActivity extends Activity implements SelectionListener {
 			// Show a Toast Notification to inform user that 
 			// the app is "Downloading Tweets from Network"
 			log ("Issuing Toast Message");
-
+			Context context = getApplicationContext();
+			CharSequence text = "Downloading Tweets from Network";
+			int duration = Toast.LENGTH_SHORT;
 			
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 			
 			// TODO:
 			// Start new AsyncTask to download Tweets from network
-
-
+			new DownloaderTask(this).doInBackground(FRIENDS);
 
 			
 			// Set up a BroadcastReceiver to receive an Intent when download
@@ -105,7 +109,9 @@ public class MainActivity extends Activity implements SelectionListener {
 					// Check to make sure this is an ordered broadcast
 					// Let sender know that the Intent was received
 					// by setting result code to RESULT_OK
-
+					if(this.isOrderedBroadcast()){
+						setResultCode(RESULT_OK);
+					}
 
 				}
 			};
@@ -179,9 +185,8 @@ public class MainActivity extends Activity implements SelectionListener {
 		// TODO:
 		// Register the BroadcastReceiver to receive a 
 		// DATA_REFRESHED_ACTION broadcast
-
-
-		
+		IntentFilter filter = new IntentFilter(DATA_REFRESHED_ACTION);
+		registerReceiver(mRefreshReceiver, filter);
 	}
 
 	@Override
@@ -189,9 +194,7 @@ public class MainActivity extends Activity implements SelectionListener {
 
 		// TODO:
 		// Unregister the BroadcastReceiver
-
-
-		
+		unregisterReceiver(mRefreshReceiver);
 		
 		super.onPause();
 
