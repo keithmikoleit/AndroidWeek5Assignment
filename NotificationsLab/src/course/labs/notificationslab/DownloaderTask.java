@@ -164,15 +164,13 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 						log("Entered result receiver's onReceive() method");
 
 						// TODO: Check whether the result code is RESULT_OK
-
-						if (/*change this*/ true) {
+						if (getResultCode() != MainActivity.RESULT_OK) {
 
 							// TODO:  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
 							// to FLAG_UPDATE_CURRENT
 							
-							final PendingIntent pendingIntent = null;
-							
+							final PendingIntent pendingIntent = PendingIntent.getActivity(mApplicationContext, 0, restartMainActivtyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 							// Uses R.layout.custom_notification for the
@@ -186,7 +184,11 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// TODO: Set the notification View's text to
 							// reflect whether or the download completed
 							// successfully
-
+							if(success){
+								mContentView.setTextViewText(R.id.text, successMsg);
+							}else{
+								mContentView.setTextViewText(R.id.text, failMsg);
+							}
 
 							
 							// TODO: Use the Notification.Builder class to
