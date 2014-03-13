@@ -169,7 +169,6 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// TODO:  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
 							// to FLAG_UPDATE_CURRENT
-							
 							final PendingIntent pendingIntent = PendingIntent.getActivity(mApplicationContext, 0, restartMainActivtyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -197,11 +196,17 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// android.R.drawable.stat_sys_warning
 							// for the small icon. You should also setAutoCancel(true). 
 
-							Notification.Builder notificationBuilder = null;
+							Notification.Builder notificationBuilder = new Notification.Builder(mApplicationContext)
+							.setContent(mContentView)
+							.setAutoCancel(true)
+							.setContentIntent(pendingIntent)
+							.setSmallIcon(android.R.drawable.stat_sys_warning)
+							;
 
 							// TODO: Send the notification
-
-							
+							NotificationManager mNotificationManager =
+								    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);							
+							mNotificationManager.notify(MY_NOTIFICATION_ID, notificationBuilder.build());
 							
 							log("Notification Area Notification sent");
 						}
