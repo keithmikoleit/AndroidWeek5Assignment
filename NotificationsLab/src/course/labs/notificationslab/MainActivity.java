@@ -94,9 +94,9 @@ public class MainActivity extends Activity implements SelectionListener {
 			
 			// TODO:
 			// Start new AsyncTask to download Tweets from network
-			new DownloaderTask(this).doInBackground(FRIENDS);
+			DownloaderTask downloaderTask = new DownloaderTask(this);
+			downloaderTask.execute(new String[] {URL_TSWIFT, URL_RBLACK, URL_LGAGA});
 
-			
 			// Set up a BroadcastReceiver to receive an Intent when download
 			// finishes. 
 			mRefreshReceiver = new BroadcastReceiver() {
